@@ -19,19 +19,19 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-          ${data}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <form>
+            <label for='tasks'>Task: </label>
+            <select name='tasks' id='tasks'>
+                <option value='Task1'>Task 1</option>
+                <option value='Task2'>Task 2</option>
+            </select>
+            <label for='person'>Assigned To: </label>
+            <select name='person' id='person'>
+                <option value='personA'>Person A</option>
+                <option value='personB'>Person B</option>
+            </select>
+            <button type='submit'>Assign Person to Task</button>
+        </form>
       </header>
     </div>
   );
