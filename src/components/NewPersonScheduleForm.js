@@ -3,12 +3,23 @@ import React, {useEffect, useState} from 'react';
 import TaskOption from './TaskOption';
 
 const NewPersonScheduleForm = () => {
+    const [taskOptions, setTaskOptions] = useState();
+
+    const getTaskOptions = async () => {
+        const response = await fetch('/task');
+        const data = await response.json();
+        setTaskOptions(data.map(task => <TaskOption />));
+    }
+
+    useEffect(() => {
+        getTaskOptions();
+    }, [])
 
     return(
         <form>
             <label for='tasks'>Task: </label>
             <select name='tasks' id='tasks'>
-                <TaskOption />
+                {taskOptions}
             </select>
             <label for='person'>Assigned To: </label>
             <select name='person' id='person'>
