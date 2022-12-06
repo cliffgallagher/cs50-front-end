@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import NewPersonScheduleForm from './components/NewPersonScheduleForm';
 import PersonSchedules from './components/PersonSchedules';
+import TestPersonScheduleForm from './components/TestPersonScheduleForm';
 
 function App() {
   const [data, setData] = useState();
@@ -20,7 +21,7 @@ function App() {
 
   return (
     <div className="App">
-        <NewPersonScheduleForm />
+        <TestPersonScheduleForm />
         <PersonSchedules />
     </div>
   );
