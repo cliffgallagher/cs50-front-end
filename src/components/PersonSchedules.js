@@ -8,7 +8,6 @@ const PersonSchedules = () => {
     const getPersonSchedules = async () => {
         const response = await fetch('/personschedule');
         const data = await response.json();
-        console.log(data);
         setPersonSchedules(data.map(schedule => <PersonSchedule externalId={schedule.externalId} personId={schedule.personId} personName={schedule.personName} taskId={schedule.taskId} taskDescription={schedule.taskDescription} startTime={schedule.startTime} endTime={schedule.endTime} key={schedule.externalId}/>));
     }
 

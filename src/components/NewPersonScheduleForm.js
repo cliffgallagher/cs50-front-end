@@ -6,9 +6,8 @@ const NewPersonScheduleForm = () => {
     const [taskOptions, setTaskOptions] = useState();
 
     const getTaskOptions = async () => {
-        const response = await fetch('/task');
+        const response = await fetch('/task/unassigned');
         const data = await response.json();
-//        console.log(data);
         setTaskOptions(data.map(task => <TaskOption externalId={task.externalId} description={task.description} key={task.externalId}/>));
     }
 
