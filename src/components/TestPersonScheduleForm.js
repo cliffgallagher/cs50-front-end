@@ -10,8 +10,8 @@ const TestPersonScheduleForm = () => {
         const body = {
             personId: 1,
             taskId: 1,
-            startTime: "2022-12-15 06:00:00",
-            endTime: "2022-12-15 07:00:00"
+            startTime: "2022-12-15T06:00:00Z",
+            endTime: "2022-12-15T07:00:00Z"
         }
         const response = await fetch('/personschedule', {
             method: 'POST',
