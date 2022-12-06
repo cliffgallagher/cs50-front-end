@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PersonSchedule from './PersonSchedule';
+import './PersonSchedules.css';
 
 const PersonSchedules = () => {
     const [personSchedules, setPersonSchedules] = useState();
@@ -16,7 +17,7 @@ const PersonSchedules = () => {
     }, [])
 
     return(
-        <div>
+        <div className="person-schedules">
             {personSchedules}
         </div>
     )

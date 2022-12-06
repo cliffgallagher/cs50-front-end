@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
+import './PersonSchedule.css';
 
 const PersonSchedule = (props) => {
     return(
-        <div>
+        <div className="person-schedule">
             <p>Person: {props.personName}</p>
             <p>Task: {props.taskDescription}</p>
             <p>Start: {props.startTime}</p>
