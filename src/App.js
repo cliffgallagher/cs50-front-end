@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import NewPersonScheduleForm from './components/NewPersonScheduleForm';
+import PersonSchedules from './components/PersonSchedules';
 
 function App() {
   const [data, setData] = useState();
@@ -19,9 +20,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <NewPersonScheduleForm/>
-      </header>
+        <PersonSchedules />
     </div>
   );
 }

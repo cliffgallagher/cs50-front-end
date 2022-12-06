@@ -8,7 +8,7 @@ const NewPersonScheduleForm = () => {
     const getTaskOptions = async () => {
         const response = await fetch('/task');
         const data = await response.json();
-        console.log(data);
+//        console.log(data);
         setTaskOptions(data.map(task => <TaskOption externalId={task.externalId} description={task.description} key={task.externalId}/>));
     }
 
