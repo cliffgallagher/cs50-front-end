@@ -8,7 +8,8 @@ const NewPersonScheduleForm = () => {
     const getTaskOptions = async () => {
         const response = await fetch('/task');
         const data = await response.json();
-        setTaskOptions(data.map(task => <TaskOption />));
+        console.log(data);
+        setTaskOptions(data.map(task => <TaskOption externalId={task.externalId} description={task.description} startTime={task.startTime} endTime={task.endTime} key={task.externalId}/>));
     }
 
     useEffect(() => {

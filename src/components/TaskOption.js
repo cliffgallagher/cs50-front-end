@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
-const TaskOption = () => {
+const TaskOption = (props) => {
     return(
-        <option value='personA'>Person A</option>
+        <option value={props.externalId}>{props.description} from {props.startTime} until {props.endTime}</option>
     )
 }
 
