@@ -4,10 +4,13 @@ import TaskOption from './TaskOption';
 import PersonOption from './PersonOption';
 
 const NewPersonScheduleForm = () => {
-    const [taskOptions, setTaskOptions] = useState();
     const [personOptions, setPersonOptions] = useState();
     const [personInputValue, setPersonInputValue] = useState();
+    const [personInputValid, setPersonInputValid] = useState(false);
+    const [taskOptions, setTaskOptions] = useState();
     const [taskInputValue, setTaskInputValue] = useState();
+    const [taskInputValid, setTaskInputValid] = useState(false);
+    const [submitDisabled, setSubmitDisabled] = useState(true);
 
     const getTaskOptions = async () => {
         const response = await fetch('/task');
@@ -41,12 +44,16 @@ const NewPersonScheduleForm = () => {
     }
 
     const personInputChangeHandler = (event) => {
+        setPersonInputValid(event.target.value ? true : false);
+        setSubmitDisabled(!personInputValid && !taskInputValid);
         //console.log(event.target.value);
         setPersonInputValue(event.target.value);
     }
 
     const taskInputChangeHandler = (event) => {
-        console.log(event.target.value);
+        setTaskInputValid(event.target.value ? true : false);
+        setSubmitDisabled(!personInputValid && !taskInputValid);
+        //console.log(event.target.value);
         setTaskInputValue(event.target.value);
     }
 
@@ -59,7 +66,7 @@ const NewPersonScheduleForm = () => {
         <form onSubmit={newPersonScheduleFormSubmitHandler}>
             <label for='tasks'>Task: </label>
             <select name='tasks' id='tasks' onChange={taskInputChangeHandler} value={taskInputValue}>
-                <option value="">--Please choose an option--</option>
+                <option value="">Please choose an option</option>
                 {taskOptions}
             </select>
             <label for='person'>Assigned To: </label>
@@ -67,7 +74,7 @@ const NewPersonScheduleForm = () => {
                 <option value="">Please choose an option</option>
                 {personOptions}
             </select>
-            <button type='submit'>Assign Person to Task</button>
+            <button type='submit' disabled={submitDisabled}>Assign Person to Task</button>
         </form>
     )
 }
