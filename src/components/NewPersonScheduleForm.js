@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import TaskOption from './TaskOption';
 import PersonOption from './PersonOption';
+import './NewPersonScheduleForm.css';
 
 const NewPersonScheduleForm = (props) => {
     const [personOptions, setPersonOptions] = useState();
@@ -107,7 +108,7 @@ const NewPersonScheduleForm = (props) => {
     }, [])
 
     return(
-        <form onSubmit={newPersonScheduleFormSubmitHandler}>
+        <form onSubmit={newPersonScheduleFormSubmitHandler} className='form'>
             <label for='tasks'>Task: </label>
             <select name='tasks' id='tasks' onChange={taskInputChangeHandler} value={taskInputValue}>
                 <option value="">Please choose an option</option>
