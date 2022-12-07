@@ -7,9 +7,10 @@ const NewPersonScheduleForm = () => {
     const [taskOptions, setTaskOptions] = useState();
     const [personOptions, setPersonOptions] = useState();
     const [personInputValue, setPersonInputValue] = useState();
+    const [taskInputValue, setTaskInputValue] = useState();
 
     const getTaskOptions = async () => {
-        const response = await fetch('/task/unassigned');
+        const response = await fetch('/task');
         const data = await response.json();
         setTaskOptions(data.map(task => <TaskOption externalId={task.externalId} description={task.description} key={task.externalId}/>));
     }
@@ -22,10 +23,10 @@ const NewPersonScheduleForm = () => {
 
     const newPersonScheduleFormSubmitHandler = async (event) => {
        event.preventDefault();
-        console.log("personInputValue in submit handler: " + personInputValue);
+        console.log("taskInputValue in submit handler: " + taskInputValue);
         const body = {
             personId: personInputValue,
-            taskId: 1,
+            taskId: taskInputValue,
             startTime: "2022-12-15T06:00:00",
             endTime: "2022-12-15T07:00:00"
         }
@@ -44,6 +45,11 @@ const NewPersonScheduleForm = () => {
         setPersonInputValue(event.target.value);
     }
 
+    const taskInputChangeHandler = (event) => {
+        console.log(event.target.value);
+        setTaskInputValue(event.target.value);
+    }
+
     useEffect(() => {
         getTaskOptions();
         getPersonOptions();
@@ -52,11 +58,13 @@ const NewPersonScheduleForm = () => {
     return(
         <form onSubmit={newPersonScheduleFormSubmitHandler}>
             <label for='tasks'>Task: </label>
-            <select name='tasks' id='tasks'>
+            <select name='tasks' id='tasks' onChange={taskInputChangeHandler} value={taskInputValue}>
+                <option value="">--Please choose an option--</option>
                 {taskOptions}
             </select>
             <label for='person'>Assigned To: </label>
             <select name='person' id='person' onChange={personInputChangeHandler} value={personInputValue}>
+                <option value="">Please choose an option</option>
                 {personOptions}
             </select>
             <button type='submit'>Assign Person to Task</button>
