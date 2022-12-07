@@ -13,6 +13,8 @@ const NewPersonScheduleForm = () => {
     const [taskInputValid, setTaskInputValid] = useState(false);
 
     const [startDateInputValue, setStartDateInputValue] = useState("2022-12-01");
+    const [startTimeInputValue, setStartTimeInputValue] = useState("12:00:00");
+
     const [endDateInputValue, setEndDateInputValue] = useState("2022-12-31");
 
     const [submitDisabled, setSubmitDisabled] = useState(true);
@@ -38,7 +40,7 @@ const NewPersonScheduleForm = () => {
         const body = {
             personId: personInputValue,
             taskId: taskInputValue,
-            startDateAndTime: `${startDateInputValue}T06:00:00`,
+            startDateAndTime: `${startDateInputValue}T${startTimeInputValue}`,
             endTime: `${endDateInputValue}T07:00:00`
         }
         const response = await fetch('/personschedule', {
@@ -70,6 +72,11 @@ const NewPersonScheduleForm = () => {
         setStartDateInputValue(event.target.value);
     }
 
+    const startTimeInputChangeHandler = (event) => {
+        //console.log(event.target.value);
+        setStartTimeInputValue(event.target.value);
+    }
+
     const endDateInputChangeHandler = (event) => {
         //console.log(event.target.value);
         setEndDateInputValue(event.target.value);
@@ -94,6 +101,7 @@ const NewPersonScheduleForm = () => {
             </select>
             <label for='startDate'>Start Date/Time: </label>
             <input type="date" id="startDate" name="startDate" onChange={startDateInputChangeHandler} value={startDateInputValue}/>
+            <input type="time" id="startTime" name="startTime" step="1" onChange={startTimeInputChangeHandler} value={startTimeInputValue}/>
             <label for='endDate'>End Date/Time: </label>
             <input type="date" id="endDate" name="endDate" onChange={endDateInputChangeHandler} value={endDateInputValue}/>
             <button type='submit' disabled={submitDisabled}>Assign Person to Task</button>
