@@ -51,7 +51,19 @@ const NewPersonScheduleForm = (props) => {
             },
             body: JSON.stringify(body)
         });
+
+        //reset everything
         props.getPersonSchedules();
+        setTaskInputValue('');
+        setTaskInputValid(false);
+        setPersonInputValue('');
+        setPersonInputValid(false);
+        setStartDateInputValue('2022-12-01');
+        setStartTimeInputValue('12:00:00');
+        setEndDateInputValue('2022-12-31');
+        setEndTimeInputValue('12:00:00');
+        setSubmitDisabled(true);
+
         return response.json();
     }
 
