@@ -6,7 +6,7 @@ const PersonSchedule = (props) => {
     const personScheduleDeleteHandler = async (event) => {
         event.preventDefault();
         const body = {
-            externalId: 60
+            externalId: props.externalId
         }
         const response = await fetch('/personschedule', {
             method: 'DELETE',
@@ -15,6 +15,7 @@ const PersonSchedule = (props) => {
             },
             body: JSON.stringify(body)
         });
+        props.getPersonSchedules();
     }
 
     return(
