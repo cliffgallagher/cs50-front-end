@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import TaskOption from './TaskOption';
 import PersonOption from './PersonOption';
 
-const NewPersonScheduleForm = () => {
+const NewPersonScheduleForm = (props) => {
     const [personOptions, setPersonOptions] = useState();
     const [personInputValue, setPersonInputValue] = useState();
     const [personInputValid, setPersonInputValid] = useState(false);
@@ -51,6 +51,7 @@ const NewPersonScheduleForm = () => {
             },
             body: JSON.stringify(body)
         });
+        props.getPersonSchedules();
         return response.json();
     }
 
