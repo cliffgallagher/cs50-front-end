@@ -13,6 +13,7 @@ const NewPersonScheduleForm = () => {
     const [taskInputValid, setTaskInputValid] = useState(false);
 
     const [startDateInputValue, setStartDateInputValue] = useState("2022-12-01");
+    const [endDateInputValue, setEndDateInputValue] = useState("2022-12-31");
 
     const [submitDisabled, setSubmitDisabled] = useState(true);
 
@@ -32,15 +33,13 @@ const NewPersonScheduleForm = () => {
         event.preventDefault();
 //        console.log("taskInputValue in submit handler: " + taskInputValue);
 
-        //construct startDateAndTime
-        const startDate = startDateInputValue;
 //        console.log("startDateInputValue in submit handler: " + startDateInputValue);
 
         const body = {
             personId: personInputValue,
             taskId: taskInputValue,
             startDateAndTime: `${startDateInputValue}T06:00:00`,
-            endTime: "2022-12-15T07:00:00"
+            endTime: `${endDateInputValue}T07:00:00`
         }
         const response = await fetch('/personschedule', {
             method: 'POST',
@@ -71,6 +70,11 @@ const NewPersonScheduleForm = () => {
         setStartDateInputValue(event.target.value);
     }
 
+    const endDateInputChangeHandler = (event) => {
+        //console.log(event.target.value);
+        setEndDateInputValue(event.target.value);
+    }
+
     useEffect(() => {
         getTaskOptions();
         getPersonOptions();
@@ -88,8 +92,10 @@ const NewPersonScheduleForm = () => {
                 <option value="">Please choose an option</option>
                 {personOptions}
             </select>
-            <label for='startDate'>Start Date: </label>
+            <label for='startDate'>Start Date/Time: </label>
             <input type="date" id="startDate" name="startDate" onChange={startDateInputChangeHandler} value={startDateInputValue}/>
+            <label for='endDate'>End Date/Time: </label>
+            <input type="date" id="endDate" name="endDate" onChange={endDateInputChangeHandler} value={endDateInputValue}/>
             <button type='submit' disabled={submitDisabled}>Assign Person to Task</button>
         </form>
     )
