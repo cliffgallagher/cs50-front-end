@@ -35,16 +35,16 @@ const NewPersonScheduleForm = (props) => {
 
     const newPersonScheduleFormSubmitHandler = async (event) => {
         event.preventDefault();
-//        console.log("taskInputValue in submit handler: " + taskInputValue);
 
-//        console.log("startDateInputValue in submit handler: " + startDateInputValue);
+
 
         const body = {
             personId: personInputValue,
             taskId: taskInputValue,
-            startDateAndTime: `${startDateInputValue}T${startTimeInputValue}`,
+            startTime: `${startDateInputValue}T${startTimeInputValue}`,
             endTime: `${endDateInputValue}T${endTimeInputValue}`
         }
+        console.log('stringified: ' + JSON.stringify(body));
         const response = await fetch('/personschedule', {
             method: 'POST',
             headers: {
