@@ -33,10 +33,81 @@ const NewPersonScheduleForm = (props) => {
         setPersonOptions(data.map(person => <PersonOption externalId={person.externalId} name={person.name} key={person.externalId}/>));
     }
 
+    const formatStartTime = (unformattedStartTime) => {
+
+
+    }
+
     const newPersonScheduleFormSubmitHandler = async (event) => {
         event.preventDefault();
 
+        //format startDate and startTime so that back-end accepts it
+        const unformattedYear = `${startDateInputValue}`;
+        const dateElements = unformattedYear.split('-');
+        const month = dateElements[1];
+        const day = dateElements[2];
+        const year = dateElements[0];
+        const formattedYear = month.concat('-', day, '-', year);
 
+        const unformattedStartTime = `${startTimeInputValue}`;
+        let unformattedHours = unformattedStartTime.substring(0, 2);
+        const remainingTimeString = unformattedStartTime.substring(2);
+        let amOrPM = 'AM';
+        console.log('unformattedHours: ' + unformattedHours);
+//        console.log(remainingTimeString);
+//        console.log(unformattedStartTime);
+
+        switch(unformattedHours) {
+            case '12':
+                amOrPM = 'PM';
+                break;
+            case '13':
+                unformattedHours = '01';
+                amOrPM = 'PM';
+                break;
+            case '14':
+                unformattedHours = '02';
+                amOrPM = 'PM';
+                break;
+            case '15':
+                unformattedHours = '03';
+                amOrPM = 'PM';
+                break;
+            case '16':
+                unformattedHours = '04';
+                amOrPM = 'PM';
+                break;
+            case '17':
+                unformattedHours = '05';
+                amOrPM = 'PM';
+                break;
+            case '18':
+                unformattedHours = '06';
+                amOrPM = 'PM';
+                break;
+            case '19':
+                unformattedHours = '07';
+                amOrPM = 'PM';
+                break;
+            case '20':
+                unformattedHours = '08';
+                amOrPM = 'PM';
+                break;
+            case '21':
+                unformattedHours = '09';
+                amOrPM = 'PM';
+                break;
+            case '22':
+                unformattedHours = '10';
+                amOrPM = 'PM';
+                break;
+            case '23':
+                unformattedHours = '11';
+                amOrPM = 'PM';
+                break;
+        }
+
+        console.log('formmated hours: ' + unformattedHours + ' ' + amOrPM);
 
         const body = {
             personId: personInputValue,
