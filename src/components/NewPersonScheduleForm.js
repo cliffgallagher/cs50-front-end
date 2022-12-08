@@ -33,10 +33,10 @@ const NewPersonScheduleForm = (props) => {
         setPersonOptions(data.map(person => <PersonOption externalId={person.externalId} name={person.name} key={person.externalId}/>));
     }
 
-    const formatStartTime = (unformattedStartTime) => {
+    const formatTime = (unformattedTime) => {
 
-        let unformattedHours = unformattedStartTime.substring(0, 2);
-        const remainingTimeString = unformattedStartTime.substring(2);
+        let unformattedHours = unformattedTime.substring(0, 2);
+        const remainingTimeString = unformattedTime.substring(2);
         let amOrPM = 'AM';
 
         switch(unformattedHours) {
@@ -105,13 +105,27 @@ const NewPersonScheduleForm = (props) => {
         const formattedYear = month.concat('-', day, '-', year);
 
         const unformattedStartTime = `${startTimeInputValue}`;
-        const formattedStartTime = formatStartTime(unformattedStartTime);
+        const formattedStartTime = formatTime(unformattedStartTime);
+
+        //format endDate and endTime
+        const unformattedYearEnd = `${startDateInputValue}`;
+        const dateElementsEnd = unformattedYear.split('-');
+        const monthEnd = dateElementsEnd[1];
+        const dayEnd = dateElementsEnd[2];
+        const yearEnd = dateElementsEnd[0];
+        const formattedYearEnd = monthEnd.concat('-', dayEnd, '-', yearEnd);
+
+        const unformattedEndTime = `${endTimeInputValue}`;
+        console.log('unformattedEndTime: ' + unformattedEndTime)
+        const formattedEndTime = formatTime(unformattedEndTime);
+
+        console.log('formattedEndTime: ' + formattedEndTime);
 
         const body = {
             personId: personInputValue,
             taskId: taskInputValue,
             startTime: `${formattedYear} ${formattedStartTime}`,
-            endTime: `${endDateInputValue}T${endTimeInputValue}`
+            endTime: `${formattedYearEnd} ${formattedEndTime}`
         }
         console.log('stringified: ' + JSON.stringify(body));
         const response = await fetch('/personschedule', {
