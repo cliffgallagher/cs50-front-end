@@ -35,27 +35,9 @@ const NewPersonScheduleForm = (props) => {
 
     const formatStartTime = (unformattedStartTime) => {
 
-
-    }
-
-    const newPersonScheduleFormSubmitHandler = async (event) => {
-        event.preventDefault();
-
-        //format startDate and startTime so that back-end accepts it
-        const unformattedYear = `${startDateInputValue}`;
-        const dateElements = unformattedYear.split('-');
-        const month = dateElements[1];
-        const day = dateElements[2];
-        const year = dateElements[0];
-        const formattedYear = month.concat('-', day, '-', year);
-
-        const unformattedStartTime = `${startTimeInputValue}`;
         let unformattedHours = unformattedStartTime.substring(0, 2);
         const remainingTimeString = unformattedStartTime.substring(2);
         let amOrPM = 'AM';
-        console.log('unformattedHours: ' + unformattedHours);
-//        console.log(remainingTimeString);
-//        console.log(unformattedStartTime);
 
         switch(unformattedHours) {
             case '12':
@@ -107,12 +89,28 @@ const NewPersonScheduleForm = (props) => {
                 break;
         }
 
-        console.log('formmated hours: ' + unformattedHours + ' ' + amOrPM);
+        return `${unformattedHours}${remainingTimeString} ${amOrPM}`;
+
+    }
+
+    const newPersonScheduleFormSubmitHandler = async (event) => {
+        event.preventDefault();
+
+        //format startDate and startTime so that back-end accepts it
+        const unformattedYear = `${startDateInputValue}`;
+        const dateElements = unformattedYear.split('-');
+        const month = dateElements[1];
+        const day = dateElements[2];
+        const year = dateElements[0];
+        const formattedYear = month.concat('-', day, '-', year);
+
+        const unformattedStartTime = `${startTimeInputValue}`;
+        const formattedStartTime = formatStartTime(unformattedStartTime);
 
         const body = {
             personId: personInputValue,
             taskId: taskInputValue,
-            startTime: `${startDateInputValue}T${startTimeInputValue}`,
+            startTime: `${formattedYear} ${formattedStartTime}`,
             endTime: `${endDateInputValue}T${endTimeInputValue}`
         }
         console.log('stringified: ' + JSON.stringify(body));
