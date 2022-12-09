@@ -5,10 +5,12 @@ import NewPersonScheduleForm from './components/NewPersonScheduleForm';
 import PersonSchedules from './components/PersonSchedules';
 import TestPersonScheduleForm from './components/TestPersonScheduleForm';
 import PersonSchedule from './components/PersonSchedule';
+import Popup from './components/Popup';
 
 function App() {
   const [data, setData] = useState();
   const [personSchedules, setPersonSchedules] = useState();
+  const [popupOpen, setPopupOpen] = useState(false);
 
 //  const getInfo = async () => {
 //    const response = await fetch('/person');
@@ -33,8 +35,9 @@ function App() {
 
   return (
     <div className="App">
-        <NewPersonScheduleForm getPersonSchedules={getPersonSchedules}/>
+        <NewPersonScheduleForm getPersonSchedules={getPersonSchedules} setPopupOpen={setPopupOpen}/>
         <PersonSchedules personSchedules={personSchedules} />
+        {popupOpen ? <Popup text="Hello there!" closePopup={() => setPopupOpen(false)} /> : null}
     </div>
   );
 }
