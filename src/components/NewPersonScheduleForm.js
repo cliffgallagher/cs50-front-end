@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import TaskOption from './TaskOption';
 import PersonOption from './PersonOption';
 import './NewPersonScheduleForm.css';
+import Popup from './Popup';
 
 const NewPersonScheduleForm = (props) => {
     const [personOptions, setPersonOptions] = useState();
@@ -20,6 +21,8 @@ const NewPersonScheduleForm = (props) => {
     const [endTimeInputValue, setEndTimeInputValue] = useState("12:00:00");
 
     const [submitDisabled, setSubmitDisabled] = useState(true);
+
+    const [popupOpen, setPopupOpen] = useState(false);
 
     const getTaskOptions = async () => {
         const response = await fetch('/task');
@@ -149,7 +152,9 @@ const NewPersonScheduleForm = (props) => {
         setSubmitDisabled(true);
 
         //check for response status
-        console.log('response status: ' + response.status);
+        if (response.status == 409) {
+            setPopupOpen(true);
+        }
 
         return response.json();
     }
@@ -194,25 +199,28 @@ const NewPersonScheduleForm = (props) => {
     }, [])
 
     return(
-        <form onSubmit={newPersonScheduleFormSubmitHandler} className='form'>
-            <label for='tasks'>Task: </label>
-            <select name='tasks' id='tasks' onChange={taskInputChangeHandler} value={taskInputValue}>
-                <option value="">Please choose an option</option>
-                {taskOptions}
-            </select>
-            <label for='person'>Assigned To: </label>
-            <select name='person' id='person' onChange={personInputChangeHandler} value={personInputValue}>
-                <option value="">Please choose an option</option>
-                {personOptions}
-            </select>
-            <label for='startDate'>Start Date/Time: </label>
-            <input type="date" id="startDate" name="startDate" onChange={startDateInputChangeHandler} value={startDateInputValue}/>
-            <input type="time" id="startTime" name="startTime" step="1" onChange={startTimeInputChangeHandler} value={startTimeInputValue}/>
-            <label for='endDate'>End Date/Time: </label>
-            <input type="date" id="endDate" name="endDate" onChange={endDateInputChangeHandler} value={endDateInputValue}/>
-            <input type="time" id="endTime" name="endTime" step="1" onChange={endTimeInputChangeHandler} value={endTimeInputValue}/>
-            <button type='submit' disabled={submitDisabled}>Assign Person to Task</button>
-        </form>
+        <div>
+            <form onSubmit={newPersonScheduleFormSubmitHandler} className='form'>
+                <label for='tasks'>Task: </label>
+                <select name='tasks' id='tasks' onChange={taskInputChangeHandler} value={taskInputValue}>
+                    <option value="">Please choose an option</option>
+                    {taskOptions}
+                </select>
+                <label for='person'>Assigned To: </label>
+                <select name='person' id='person' onChange={personInputChangeHandler} value={personInputValue}>
+                    <option value="">Please choose an option</option>
+                    {personOptions}
+                </select>
+                <label for='startDate'>Start Date/Time: </label>
+                <input type="date" id="startDate" name="startDate" onChange={startDateInputChangeHandler} value={startDateInputValue}/>
+                <input type="time" id="startTime" name="startTime" step="1" onChange={startTimeInputChangeHandler} value={startTimeInputValue}/>
+                <label for='endDate'>End Date/Time: </label>
+                <input type="date" id="endDate" name="endDate" onChange={endDateInputChangeHandler} value={endDateInputValue}/>
+                <input type="time" id="endTime" name="endTime" step="1" onChange={endTimeInputChangeHandler} value={endTimeInputValue}/>
+                <button type='submit' disabled={submitDisabled}>Assign Person to Task</button>
+            </form>
+            {popupOpen ? <Popup text="Hello there!" closePopup={() => setPopupOpen(false)} /> : null}
+        </div>
     )
 }
 
