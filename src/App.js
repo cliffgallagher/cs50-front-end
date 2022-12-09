@@ -11,6 +11,7 @@ function App() {
   const [data, setData] = useState();
   const [personSchedules, setPersonSchedules] = useState();
   const [popupOpen, setPopupOpen] = useState(false);
+  const [popupText, setPopupText] = useState();
 
 //  const getInfo = async () => {
 //    const response = await fetch('/person');
@@ -35,9 +36,9 @@ function App() {
 
   return (
     <div className="App">
-        <NewPersonScheduleForm getPersonSchedules={getPersonSchedules} setPopupOpen={setPopupOpen}/>
+        <NewPersonScheduleForm getPersonSchedules={getPersonSchedules} setPopupOpen={setPopupOpen} setPopupText={setPopupText}/>
         <PersonSchedules personSchedules={personSchedules} />
-        {popupOpen ? <Popup text="The person you are scheduling has a conflict at that time." closePopup={() => setPopupOpen(false)} /> : null}
+        {popupOpen ? <Popup text={popupText} closePopup={() => setPopupOpen(false)} /> : null}
     </div>
   );
 }

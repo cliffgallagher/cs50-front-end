@@ -109,7 +109,6 @@ const NewPersonScheduleForm = (props) => {
         //format endDate and endTime
         const unformattedYearEnd = `${endDateInputValue}`;
         const dateElementsEnd = unformattedYearEnd.split('-');
-        console.log("dateElementsEnd: " + dateElementsEnd);
         const monthEnd = dateElementsEnd[1];
         const dayEnd = dateElementsEnd[2];
         const yearEnd = dateElementsEnd[0];
@@ -117,16 +116,12 @@ const NewPersonScheduleForm = (props) => {
         const unformattedEndTime = `${endTimeInputValue}`;
         const formattedEndTime = formatTime(unformattedEndTime);
 
-        console.log("unformattedEndTime: " + unformattedYearEnd);
-        console.log("formattedEndTime: " + formattedYearEnd);
         const body = {
             personId: personInputValue,
             taskId: taskInputValue,
             startTime: `${formattedYear} ${formattedStartTime}`,
             endTime: `${formattedYearEnd} ${formattedEndTime}`
         }
-
-        console.log(body);
 
         const response = await fetch('/personschedule', {
             method: 'POST',
@@ -150,6 +145,12 @@ const NewPersonScheduleForm = (props) => {
 
         //check for response status
         if (response.status == 409) {
+            props.setPopupText("The person you are scheduling has a conflict at that time.")
+            props.setPopupOpen(true);
+        }
+
+        if (response.status == 400) {
+            props.setPopupText("Start time must be before end time.")
             props.setPopupOpen(true);
         }
 
