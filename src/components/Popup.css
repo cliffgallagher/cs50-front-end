@@ -21,4 +21,27 @@
     border-color: black;
     background: white;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: grid;
+    grid-template-columns: repeat(5, 20%);
+    grid-template-row: repeat(5, 20%);
+    grid-template-areas:
+        "content content content content content"
+        "content content content content content"
+        "content content content content content"
+        "content content content content content";
+    align-items: center;
+    justify-items: center;
+}
+
+.popup-body h1 {
+    grid-area: content;
+    font-size: 1em;
+    padding: 5px;
+}
+
+.popup-body button {
+    grid-column: 5;
+    grid-row: 5;
+    height: 2em;
+    width: 80%;
 }

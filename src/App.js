@@ -37,7 +37,7 @@ function App() {
     <div className="App">
         <NewPersonScheduleForm getPersonSchedules={getPersonSchedules} setPopupOpen={setPopupOpen}/>
         <PersonSchedules personSchedules={personSchedules} />
-        {popupOpen ? <Popup text="Hello there!" closePopup={() => setPopupOpen(false)} /> : null}
+        {popupOpen ? <Popup text="The person you are scheduling has a conflict at that time." closePopup={() => setPopupOpen(false)} /> : null}
     </div>
   );
 }
