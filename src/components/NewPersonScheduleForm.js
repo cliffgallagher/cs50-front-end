@@ -36,7 +36,7 @@ const NewPersonScheduleForm = (props) => {
     const formatTime = (unformattedTime) => {
 
         let unformattedHours = unformattedTime.substring(0, 2);
-        const remainingTimeString = unformattedTime.substring(2);
+        let remainingTimeString = unformattedTime.substring(2);
         let amOrPM = 'AM';
 
         switch(unformattedHours) {
@@ -103,31 +103,31 @@ const NewPersonScheduleForm = (props) => {
         const day = dateElements[2];
         const year = dateElements[0];
         const formattedYear = month.concat('-', day, '-', year);
-
         const unformattedStartTime = `${startTimeInputValue}`;
         const formattedStartTime = formatTime(unformattedStartTime);
 
         //format endDate and endTime
-        const unformattedYearEnd = `${startDateInputValue}`;
-        const dateElementsEnd = unformattedYear.split('-');
+        const unformattedYearEnd = `${endDateInputValue}`;
+        const dateElementsEnd = unformattedYearEnd.split('-');
+        console.log("dateElementsEnd: " + dateElementsEnd);
         const monthEnd = dateElementsEnd[1];
         const dayEnd = dateElementsEnd[2];
         const yearEnd = dateElementsEnd[0];
         const formattedYearEnd = monthEnd.concat('-', dayEnd, '-', yearEnd);
-
         const unformattedEndTime = `${endTimeInputValue}`;
-        console.log('unformattedEndTime: ' + unformattedEndTime)
         const formattedEndTime = formatTime(unformattedEndTime);
 
-        console.log('formattedEndTime: ' + formattedEndTime);
-
+        console.log("unformattedEndTime: " + unformattedYearEnd);
+        console.log("formattedEndTime: " + formattedYearEnd);
         const body = {
             personId: personInputValue,
             taskId: taskInputValue,
             startTime: `${formattedYear} ${formattedStartTime}`,
             endTime: `${formattedYearEnd} ${formattedEndTime}`
         }
-        console.log('stringified: ' + JSON.stringify(body));
+
+        console.log(body);
+
         const response = await fetch('/personschedule', {
             method: 'POST',
             headers: {
@@ -147,6 +147,9 @@ const NewPersonScheduleForm = (props) => {
         setEndDateInputValue('2022-12-31');
         setEndTimeInputValue('12:00:00');
         setSubmitDisabled(true);
+
+        //check for response status
+        console.log('response status: ' + response.status);
 
         return response.json();
     }
