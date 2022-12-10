@@ -146,6 +146,7 @@ const NewPersonScheduleForm = (props) => {
         //check for response status
         if (response.status == 409) {
             props.setPopupText("The person you are scheduling has a conflict at that time.")
+            props.setDisplayConfirmButton(true);
             props.setPopupOpen(true);
         }
 

@@ -12,6 +12,7 @@ function App() {
   const [personSchedules, setPersonSchedules] = useState();
   const [popupOpen, setPopupOpen] = useState(false);
   const [popupText, setPopupText] = useState();
+  const [displayConfirmButton, setDisplayConfirmButton] = useState(false);
 
 //  const getInfo = async () => {
 //    const response = await fetch('/person');
@@ -36,9 +37,9 @@ function App() {
 
   return (
     <div className="App">
-        <NewPersonScheduleForm getPersonSchedules={getPersonSchedules} setPopupOpen={setPopupOpen} setPopupText={setPopupText}/>
+        <NewPersonScheduleForm getPersonSchedules={getPersonSchedules} setPopupOpen={setPopupOpen} setPopupText={setPopupText} setDisplayConfirmButton={setDisplayConfirmButton}/>
         <PersonSchedules personSchedules={personSchedules} />
-        {popupOpen ? <Popup text={popupText} closePopup={() => setPopupOpen(false)} /> : null}
+        {popupOpen ? <Popup text={popupText} closePopup={() => setPopupOpen(false)} displayConfirmButton={displayConfirmButton}/> : null}
     </div>
   );
 }
