@@ -6,20 +6,8 @@ import './NewPersonScheduleForm.css';
 
 const NewPersonScheduleForm = (props) => {
     const [personOptions, setPersonOptions] = useState();
-    const [personInputValue, setPersonInputValue] = useState();
-    const [personInputValid, setPersonInputValid] = useState(false);
 
     const [taskOptions, setTaskOptions] = useState();
-    const [taskInputValue, setTaskInputValue] = useState();
-    const [taskInputValid, setTaskInputValid] = useState(false);
-
-    const [startDateInputValue, setStartDateInputValue] = useState("2022-12-01");
-    const [startTimeInputValue, setStartTimeInputValue] = useState("12:00:00");
-
-    const [endDateInputValue, setEndDateInputValue] = useState("2022-12-31");
-    const [endTimeInputValue, setEndTimeInputValue] = useState("12:00:00");
-
-    const [submitDisabled, setSubmitDisabled] = useState(true);
 
     const getTaskOptions = async () => {
         const response = await fetch('/task');
@@ -33,163 +21,38 @@ const NewPersonScheduleForm = (props) => {
         setPersonOptions(data.map(person => <PersonOption externalId={person.externalId} name={person.name} key={person.externalId}/>));
     }
 
-    const formatTime = (unformattedTime) => {
-
-        let unformattedHours = unformattedTime.substring(0, 2);
-        let remainingTimeString = unformattedTime.substring(2);
-        let amOrPM = 'AM';
-
-        switch(unformattedHours) {
-            case '12':
-                amOrPM = 'PM';
-                break;
-            case '13':
-                unformattedHours = '01';
-                amOrPM = 'PM';
-                break;
-            case '14':
-                unformattedHours = '02';
-                amOrPM = 'PM';
-                break;
-            case '15':
-                unformattedHours = '03';
-                amOrPM = 'PM';
-                break;
-            case '16':
-                unformattedHours = '04';
-                amOrPM = 'PM';
-                break;
-            case '17':
-                unformattedHours = '05';
-                amOrPM = 'PM';
-                break;
-            case '18':
-                unformattedHours = '06';
-                amOrPM = 'PM';
-                break;
-            case '19':
-                unformattedHours = '07';
-                amOrPM = 'PM';
-                break;
-            case '20':
-                unformattedHours = '08';
-                amOrPM = 'PM';
-                break;
-            case '21':
-                unformattedHours = '09';
-                amOrPM = 'PM';
-                break;
-            case '22':
-                unformattedHours = '10';
-                amOrPM = 'PM';
-                break;
-            case '23':
-                unformattedHours = '11';
-                amOrPM = 'PM';
-                break;
-        }
-
-        return `${unformattedHours}${remainingTimeString} ${amOrPM}`;
-
-    }
-
-    const newPersonScheduleFormSubmitHandler = async (event) => {
-        event.preventDefault();
-
-        //format startDate and startTime so that back-end accepts it
-        const unformattedYear = `${startDateInputValue}`;
-        const dateElements = unformattedYear.split('-');
-        const month = dateElements[1];
-        const day = dateElements[2];
-        const year = dateElements[0];
-        const formattedYear = month.concat('-', day, '-', year);
-        const unformattedStartTime = `${startTimeInputValue}`;
-        const formattedStartTime = formatTime(unformattedStartTime);
-
-        //format endDate and endTime
-        const unformattedYearEnd = `${endDateInputValue}`;
-        const dateElementsEnd = unformattedYearEnd.split('-');
-        const monthEnd = dateElementsEnd[1];
-        const dayEnd = dateElementsEnd[2];
-        const yearEnd = dateElementsEnd[0];
-        const formattedYearEnd = monthEnd.concat('-', dayEnd, '-', yearEnd);
-        const unformattedEndTime = `${endTimeInputValue}`;
-        const formattedEndTime = formatTime(unformattedEndTime);
-
-        const body = {
-            personId: personInputValue,
-            taskId: taskInputValue,
-            startTime: `${formattedYear} ${formattedStartTime}`,
-            endTime: `${formattedYearEnd} ${formattedEndTime}`
-        }
-
-        const response = await fetch('/personschedule', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        });
-
-        //reset everything
-        props.getPersonSchedules();
-        setTaskInputValue('');
-        setTaskInputValid(false);
-        setPersonInputValue('');
-        setPersonInputValid(false);
-        setStartDateInputValue('2022-12-01');
-        setStartTimeInputValue('12:00:00');
-        setEndDateInputValue('2022-12-31');
-        setEndTimeInputValue('12:00:00');
-        setSubmitDisabled(true);
-
-        //check for response status
-        if (response.status == 409) {
-            props.setPopupText("The person you are scheduling has a conflict at that time.")
-            props.setDisplayConfirmButton(true);
-            props.setPopupOpen(true);
-        }
-
-        if (response.status == 400) {
-            props.setPopupText("Start time must be before end time.")
-            props.setPopupOpen(true);
-        }
-
-        return response.json();
-    }
-
     const personInputChangeHandler = (event) => {
-        setPersonInputValid(event.target.value ? true : false);
-        setSubmitDisabled(!personInputValid && !taskInputValid);
+        props.setPersonInputValid(event.target.value ? true : false);
+        props.setSubmitDisabled(!props.personInputValid && !props.taskInputValid);
         //console.log(event.target.value);
-        setPersonInputValue(event.target.value);
+        props.setPersonInputValue(event.target.value);
     }
 
     const taskInputChangeHandler = (event) => {
-        setTaskInputValid(event.target.value ? true : false);
-        setSubmitDisabled(!personInputValid && !taskInputValid);
+        props.setTaskInputValid(event.target.value ? true : false);
+        props.setSubmitDisabled(!props.personInputValid && !props.taskInputValid);
         //console.log(event.target.value);
-        setTaskInputValue(event.target.value);
+        props.setTaskInputValue(event.target.value);
     }
 
     const startDateInputChangeHandler = (event) => {
         //console.log(event.target.value);
-        setStartDateInputValue(event.target.value);
+        props.setStartDateInputValue(event.target.value);
     }
 
     const startTimeInputChangeHandler = (event) => {
         //console.log(event.target.value);
-        setStartTimeInputValue(event.target.value);
+        props.setStartTimeInputValue(event.target.value);
     }
 
     const endDateInputChangeHandler = (event) => {
         //console.log(event.target.value);
-        setEndDateInputValue(event.target.value);
+        props.setEndDateInputValue(event.target.value);
     }
 
     const endTimeInputChangeHandler = (event) => {
         //console.log(event.target.value);
-        setEndTimeInputValue(event.target.value);
+        props.setEndTimeInputValue(event.target.value);
     }
 
     useEffect(() => {
@@ -198,24 +61,24 @@ const NewPersonScheduleForm = (props) => {
     }, [])
 
     return(
-        <form onSubmit={newPersonScheduleFormSubmitHandler} className='form'>
+        <form onSubmit={props.newPersonScheduleFormSubmitHandler} className='form'>
             <label for='tasks'>Task: </label>
-            <select name='tasks' id='tasks' onChange={taskInputChangeHandler} value={taskInputValue}>
+            <select name='tasks' id='tasks' onChange={taskInputChangeHandler} value={props.taskInputValue}>
                 <option value="">Please choose an option</option>
                 {taskOptions}
             </select>
             <label for='person'>Assigned To: </label>
-            <select name='person' id='person' onChange={personInputChangeHandler} value={personInputValue}>
+            <select name='person' id='person' onChange={personInputChangeHandler} value={props.personInputValue}>
                 <option value="">Please choose an option</option>
                 {personOptions}
             </select>
             <label for='startDate'>Start Date/Time: </label>
-            <input type="date" id="startDate" name="startDate" onChange={startDateInputChangeHandler} value={startDateInputValue}/>
-            <input type="time" id="startTime" name="startTime" step="1" onChange={startTimeInputChangeHandler} value={startTimeInputValue}/>
+            <input type="date" id="startDate" name="startDate" onChange={startDateInputChangeHandler} value={props.startDateInputValue}/>
+            <input type="time" id="startTime" name="startTime" step="1" onChange={startTimeInputChangeHandler} value={props.startTimeInputValue}/>
             <label for='endDate'>End Date/Time: </label>
-            <input type="date" id="endDate" name="endDate" onChange={endDateInputChangeHandler} value={endDateInputValue}/>
-            <input type="time" id="endTime" name="endTime" step="1" onChange={endTimeInputChangeHandler} value={endTimeInputValue}/>
-            <button type='submit' disabled={submitDisabled}>Assign Person to Task</button>
+            <input type="date" id="endDate" name="endDate" onChange={endDateInputChangeHandler} value={props.endDateInputValue}/>
+            <input type="time" id="endTime" name="endTime" step="1" onChange={endTimeInputChangeHandler} value={props.endTimeInputValue}/>
+            <button type='submit' disabled={props.submitDisabled}>Assign Person to Task</button>
         </form>
     )
 }
