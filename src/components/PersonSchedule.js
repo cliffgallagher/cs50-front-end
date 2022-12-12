@@ -24,7 +24,9 @@ const PersonSchedule = (props) => {
             <p>Task: {props.taskDescription}</p>
             <p>Start: {props.startTime}</p>
             <p>End: {props.endTime}</p>
-            <button type="submit">Delete</button>
+            <div id="button-container">
+                <button type="submit">Delete</button>
+            </div>
         </form>
     )
 }
