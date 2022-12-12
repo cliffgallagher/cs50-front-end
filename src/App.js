@@ -78,7 +78,7 @@ function App() {
 
         //check for response status
         if (response.status == 409) {
-            setPopupText("The person you are scheduling has a conflict at that time.")
+            setPopupText("The person you are scheduling has a conflict at that time. Schedule anyway?")
             setDisplayConfirmButton(true);
             setPopupOpen(true);
         }

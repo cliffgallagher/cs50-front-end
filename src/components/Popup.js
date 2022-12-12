@@ -37,6 +37,8 @@ const Popup = (props) => {
         });
 
         //reset everything
+        props.setDisplayConfirmButton(false);
+        props.setPopupOpen(false);
         props.getPersonSchedules();
         props.setTaskInputValue('');
         props.setTaskInputValid(false);
@@ -48,17 +50,6 @@ const Popup = (props) => {
         props.setEndTimeInputValue('12:00:00');
         props.setSubmitDisabled(true);
 
-        //check for response status
-        if (response.status == 409) {
-            props.setPopupText("The person you are scheduling has a conflict at that time.")
-            props.setDisplayConfirmButton(true);
-            props.setPopupOpen(true);
-        }
-
-        if (response.status == 400) {
-            props.setPopupText("Start time must be before end time.")
-            props.setPopupOpen(true);
-        }
 
         return response.json();
   }
